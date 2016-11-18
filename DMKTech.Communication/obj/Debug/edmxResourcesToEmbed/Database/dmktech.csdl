@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_dmktechModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="db_dmktechEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Tables" EntityType="db_dmktechModel.Table" />
+    <EntitySet Name="tbl_AdminLogin" EntityType="db_dmktechModel.tbl_AdminLogin" />
+    <EntitySet Name="tbl_GeneralSetting" EntityType="db_dmktechModel.tbl_GeneralSetting" />
+    <EntitySet Name="tbl_Role" EntityType="db_dmktechModel.tbl_Role" />
+    <EntitySet Name="tbl_Category" EntityType="db_dmktechModel.tbl_Category" />
+    <AssociationSet Name="FK_Role_ToReg" Association="db_dmktechModel.FK_Role_ToReg">
+      <End Role="tbl_Role" EntitySet="tbl_Role" />
+      <End Role="tbl_AdminLogin" EntitySet="tbl_AdminLogin" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_AdminLogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Fk_Role" Type="Int32" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="tbl_Role" Relationship="db_dmktechModel.FK_Role_ToReg" FromRole="tbl_AdminLogin" ToRole="tbl_Role" />
+  </EntityType>
+  <EntityType Name="tbl_GeneralSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Host" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="SSL" Type="Boolean" />
+    <Property Name="UseDefaultCredentials" Type="Boolean" />
+    <Property Name="Port" Type="Int32" />
+    <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Meta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Keyword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Discription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="TagLine" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tbl_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Boolean" />
+    <NavigationProperty Name="tbl_AdminLogin" Relationship="db_dmktechModel.FK_Role_ToReg" FromRole="tbl_Role" ToRole="tbl_AdminLogin" />
+  </EntityType>
+  <EntityType Name="tbl_Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="Boolean" />
+    <Property Name="OrderNo" Type="Int32" />
+  </EntityType>
+  <Association Name="FK_Role_ToReg">
+    <End Type="db_dmktechModel.tbl_Role" Role="tbl_Role" Multiplicity="0..1" />
+    <End Type="db_dmktechModel.tbl_AdminLogin" Role="tbl_AdminLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_AdminLogin">
+        <PropertyRef Name="Fk_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_dmktechModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Table">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_AdminLogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+    <Property Name="Fk_Role" Type="int" />
+    <Property Name="Email" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserId" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'db_dmktech.dbo.tbl_Category' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="tbl_Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CategoryName" Type="nvarchar" MaxLength="50" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Description" Type="nvarchar(max)" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="Status" Type="bit" />
+    <Property Name="OrderNo" Type="int" />
+  </EntityType>
+  <EntityType Name="tbl_GeneralSetting">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Host" Type="nvarchar" MaxLength="50" />
+    <Property Name="SSL" Type="bit" />
+    <Property Name="UseDefaultCredentials" Type="bit" />
+    <Property Name="Port" Type="int" />
+    <Property Name="Title" Type="nvarchar(max)" />
+    <Property Name="Meta" Type="nvarchar(max)" />
+    <Property Name="Keyword" Type="nvarchar(max)" />
+    <Property Name="Discription" Type="nvarchar(max)" />
+    <Property Name="TagLine" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="tbl_Role">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Role" Type="nvarchar" MaxLength="50" />
+    <Property Name="Status" Type="bit" />
+  </EntityType>
+  <Association Name="FK_Role_ToReg">
+    <End Role="tbl_Role" Type="Self.tbl_Role" Multiplicity="0..1" />
+    <End Role="tbl_AdminLogin" Type="Self.tbl_AdminLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Role">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="tbl_AdminLogin">
+        <PropertyRef Name="Fk_Role" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="db_dmktechModelStoreContainer">
+    <EntitySet Name="Table" EntityType="Self.Table" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_AdminLogin" EntityType="Self.tbl_AdminLogin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_GeneralSetting" EntityType="Self.tbl_GeneralSetting" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Role" EntityType="Self.tbl_Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_Category" EntityType="Self.tbl_Category" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [tbl_Category].[Id] AS [Id], 
+    [tbl_Category].[CategoryName] AS [CategoryName], 
+    [tbl_Category].[ParentId] AS [ParentId], 
+    [tbl_Category].[Description] AS [Description], 
+    [tbl_Category].[CreatedDate] AS [CreatedDate], 
+    [tbl_Category].[Status] AS [Status], 
+    [tbl_Category].[OrderNo] AS [OrderNo]
+    FROM [dbo].[tbl_Category] AS [tbl_Category]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_Role_ToReg" Association="Self.FK_Role_ToReg">
+      <End Role="tbl_Role" EntitySet="tbl_Role" />
+      <End Role="tbl_AdminLogin" EntitySet="tbl_AdminLogin" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
